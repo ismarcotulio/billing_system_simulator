@@ -44,7 +44,7 @@ const TodosList = props => {
                                     <div>
                                         <Card.Title>{todo.title}</Card.Title>
                                         <Card.Text><b>Memo:</b> {todo.memo}</Card.Text>
-                                        <Card.Text>Date created: {todo.created}</Card.Text>
+                                        <Card.Text>Date created:  {moment(todo.created).format("Do MMMM YYYY")}</Card.Text>
                                     </div>
                                     <Link to={{
                                         pathname: "/todos/" + todo.id,
