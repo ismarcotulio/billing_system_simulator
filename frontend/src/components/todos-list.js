@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import moment from 'moment';
 
 const TodosList = props => {
 
@@ -37,6 +38,11 @@ const TodosList = props => {
                 </Alert>
                 ) : (
                 <div>
+                    <Link to={"/todos/create"}>
+                        <Button variant="outline-info" className="mb-3">
+                            Add To-do
+                        </Button>
+                    </Link>
                     {todos.map((todo) => {
                         return (
                             <Card key={todo.id} className="mb-3">
