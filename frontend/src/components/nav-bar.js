@@ -14,10 +14,10 @@ export default function Header(props){
     return (
         <Navbar bg="primary" variant="dark">
           <div className="container-fluid">
-            <Navbar.Brand>TodosApp</Navbar.Brand>
+            <Navbar.Brand>FarMarco's Web</Navbar.Brand>
             <Nav className="me-auto">
               <Container>
-                <Link className="nav-link" to="/todos">Todos</Link>
+                <Link className="nav-link" to="/products">Productos</Link>
                 { props.user ? (
                   <Link className="nav-link" to="/#" onClick={props.logout}>Logout ({props.user})</Link>
                 ) : (

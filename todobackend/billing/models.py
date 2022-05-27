@@ -13,6 +13,7 @@ class Discount_Type(models.Model):
 class Product(models.Model):
     code = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
+    imageurl = models.CharField(max_length=500)
     description = models.TextField(blank=True)
     suggested_public_price = models.IntegerField()
 
@@ -33,6 +34,7 @@ class Client(models.Model):
 
 class Transaction_x_Invoice(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     employee = models.ForeignKey(User, on_delete=models.CASCADE)
 

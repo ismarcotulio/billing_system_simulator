@@ -8,6 +8,8 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Header from './components/nav-bar';
 
+import Product from './components/product';
+
 import TodoDataService from './services/todos';
 
 function App(){
@@ -56,7 +58,7 @@ function App(){
       <Router>
         <Header user={user} logout={logout} />
 
-        <div className="container mt-4">
+        <div>
           
             <Switch>
               <Route exact path={["/", "/todos"]} render={(props)=><TodosList {...props} token={token} />}></Route>
@@ -64,6 +66,7 @@ function App(){
               <Route path="/todos/:id" render={(props)=><AddTodo {...props} token={token}/>}></Route>
               <Route path="/login" render={(props)=><Login {...props} login={login} />}></Route>
               <Route path="/signup" render={(props)=><Signup {...props} signup={signup} />}></Route>
+              <Route path="/products" render={(props)=><Product {...props} token={token} />}></Route>
             </Switch>
           
         </div>

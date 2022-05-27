@@ -30,7 +30,7 @@ class Discount_TypeSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'code', 'name', 'description', 'suggested_public_price']
+        fields = ['id', 'code', 'name', 'imageurl','description', 'suggested_public_price']
 
 class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
-from .serializers import TodoSerializer, TodoToggleCompleteSerializer, ISV_TypeSerializer
+from .serializers import TodoSerializer, TodoToggleCompleteSerializer, ISV_TypeSerializer, Discount_TypeSerializer, ProductSerializer, InvoiceSerializer
 from todo.models import Todo
-from billing.models import ISV_Type
+from billing.models import ISV_Type, Discount_Type, Product, Invoice
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 from rest_framework.parsers import JSONParser
@@ -22,12 +22,28 @@ class TodoList(generics.ListAPIView):
         return Todo.objects.filter(user=user).order_by('-created')
 
 class ISV_TypeList(generics.ListAPIView):
-    # ListAPIView requires two mandatory attributes, serializer_class and queryset.
-    # We specify TodoSerializer which we have earier implemented
-    serializer_class = ISV_Type
+    serializer_class = ISV_TypeSerializer
 
     def get_queryset(self):
-        return Todo.objects.all()
+        return ISV_Type.objects.all()
+
+class Discount_TypeList(generics.ListAPIView):
+    serializer_class = Discount_TypeSerializer
+
+    def get_queryset(self):
+        return Discount_Type.objects.all()
+
+class ProductList(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.all()
+
+class InvoiceList(generics.ListAPIView):
+    serializer_class = InvoiceSerializer
+
+    def get_queryset(self):
+        return Invoice.objects.all()
 
 
 
@@ -47,19 +63,20 @@ class TodoListCreate(generics.ListCreateAPIView):
         # serializer holds a django model
         serializer.save(user=self.request.user)
 
-class ISV_TypeListCreate(generics.ListCreateAPIView):
+class ProductListCreate(generics.ListCreateAPIView):
     # ListAPIView requires two mandatory attributes, serializer_class and queryset.
     # We specify TodoSerializer which we have earlier implemented.
-    serializer_class = ISV_TypeSerializer
+    serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        return Todo.objects.filter(user=user).order_by('-created')
-
+        return Product.objects.all()
+        
     def perform_create(self, serializer):
         # serializer holds a django model
-        serializer.save(user=self.request.user)
+        serializer.save()
+
 
 class TodoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TodoSerializer
@@ -69,6 +86,13 @@ class TodoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         # user can only update, delete own posts
         return Todo.objects.filter(user=user)
+
+class ProductRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Todo.objects.all()
 
 class TodoToggleComplete(generics.UpdateAPIView):
     serializer_class = TodoToggleCompleteSerializer
