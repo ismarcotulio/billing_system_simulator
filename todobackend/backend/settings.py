@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'todo',
     'rest_framework',
     'api',
+    'billing',
     'rest_framework.authtoken',
     "corsheaders",
 ]

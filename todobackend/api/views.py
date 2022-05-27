@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions
-from .serializers import TodoSerializer, TodoToggleCompleteSerializer
+from .serializers import TodoSerializer, TodoToggleCompleteSerializer, ISV_TypeSerializer
 from todo.models import Todo
+from billing.models import ISV_Type
 from django.db import IntegrityError
 from django.contrib.auth.models import User
 from rest_framework.parsers import JSONParser
@@ -8,6 +9,8 @@ from rest_framework.authtoken.models import Token
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
+
+## OBJECT LIST VIEWS -----------------------------------------------------------------------
 
 class TodoList(generics.ListAPIView):
     # ListAPIView requires two mandatory attributes, serializer_class and queryset.
@@ -18,10 +21,36 @@ class TodoList(generics.ListAPIView):
         user = self.request.user
         return Todo.objects.filter(user=user).order_by('-created')
 
+class ISV_TypeList(generics.ListAPIView):
+    # ListAPIView requires two mandatory attributes, serializer_class and queryset.
+    # We specify TodoSerializer which we have earier implemented
+    serializer_class = ISV_Type
+
+    def get_queryset(self):
+        return Todo.objects.all()
+
+
+
+## OBJECT LIST CREATE VIEWS -----------------------------------------------------------------------
+
 class TodoListCreate(generics.ListCreateAPIView):
     # ListAPIView requires two mandatory attributes, serializer_class and queryset.
     # We specify TodoSerializer which we have earlier implemented.
     serializer_class = TodoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Todo.objects.filter(user=user).order_by('-created')
+
+    def perform_create(self, serializer):
+        # serializer holds a django model
+        serializer.save(user=self.request.user)
+
+class ISV_TypeListCreate(generics.ListCreateAPIView):
+    # ListAPIView requires two mandatory attributes, serializer_class and queryset.
+    # We specify TodoSerializer which we have earlier implemented.
+    serializer_class = ISV_TypeSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
