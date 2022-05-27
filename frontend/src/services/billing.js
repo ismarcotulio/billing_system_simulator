@@ -4,12 +4,12 @@ class BillingDataService{
 
     getAllProducts(token){
         axios.defaults.headers.common["Authorization"] = "Token " + token;
-        return axios.get("http://localhost:8000/api/product/");
+        return axios.get("https://billing-system-simulator.herokuapp.com/api/product/");
     }
 
     deleteProduct(id, token){
         axios.defaults.headers.common["Authorization"] = "Token " + token;
-        return axios.delete(`http://localhost:8000/api/product/${id}`);
+        return axios.delete(`https://billing-system-simulator.herokuapp.com/api/product/${id}`);
     }
 }
 
